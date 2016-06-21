@@ -1,0 +1,375 @@
+bigdata_graph
+
+esempi da verificare
+http://stackoverflow.com/questions/29613647/orientdb-sql-how-to-find-vertices-and-create-edges-between-them
+
+
+descrizione classi
+
+
+
+row19 ComandiClassiBigData_graph.txt
+
+class Subject extends V abstract	persone fisiche / organizzazioni  
+
+	name		string		(campo obbligatorio)
+	birthDate	datetime
+	deathDate	datetime
+	eMail		embeddedlist string
+	vs		float			valore sociale
+	kk		float			coefficiente della conoscenza
+	ke		float			coefficiente dei comportamenti ambientali
+	vs_c		float			valore sociale   ( valore attuale )
+	kk_c		float			coefficiente della conoscenza ( valore attuale )
+	ke_c		float			coefficiente dei comportamenti ambientali ( valore attuale )	
+	pwd		embeddedlist string	elenco delle password
+
+
+
+
+row100 ComandiClassiBigData_graph.txt
+
+class P extends Subject		classe delle persone fisiche
+
+	surname		string
+	gender		string
+	height		float
+	weight		float
+	birthZone	string
+	id		    string			        identificativo univoco (C.F. per IT)
+	language	embeddedlist string
+	zone		embeddedlist string	    elenco delle zone di frequentazione abituale
+	telNumber	string
+
+
+per quanto riguarda le zone  la stringa fa riferimento alle coordinate GPS  e  più precisamente
+
+il primo carattere della stringa rappresenta la precisione  compresa tra [A .. G]
+Classe di precisione A     es. :   A41202000N46342500E0278      ( le ultime 4 cifre rappresentano l'altitudine )
+Classe di precisione B  es. :      B4120200N4634250E0278 
+Classe di precisione C  es. :      C412020N463425E	
+Classe di precisione D  es. :      D41202N46342E
+Classe di precisione E  es. :      E4120N4634E
+Classe di precisione F  es. :      F412N463E
+Classe di precisione G  es. :      G41N46E
+
+
+
+
+
+row160 ComandiClassiBigData_graph.txt
+
+class ORG extends Subject	            classe delle organizzazioni
+
+	description	string
+	id		    string		            identificativo univoco (http://www.isin.org/isin-preview)
+	zone		string			        sede dell'organizzazione
+	
+
+
+
+row210 ComandiClassiBigData_graph.txt
+
+class Food extends V		    classe del cibo disponibile
+    name        string
+    type        string
+    IntendedUse string          destinazione d'uso [Human, Animal]
+    zone        string          zona di produzione
+    quality     string          categoria di qualità [ A,B,C]
+    quantity    float           quantità disponibile
+    dateProd    datetime        data di produzione
+    dateExpire  datetime        data di scadenza
+
+
+
+
+row270 ComandiClassiBigData_graph.txt
+
+class PG extends V		        classe dei beni personali
+
+	name		string		    	(campo obbligatorio)
+	type		string
+	built_by	string			nome del costruttore ( P  o  ORG )
+	vers		string			versione
+	id		    string		        (campo obbligatorio)
+	man_op		string			url del manuale d'uso
+	man_maint	string			url del manuale manutenzione
+	value		float		    	(campo obbligatorio) valore del bene
+	zone		string
+	builtDate	datetime
+	nextRev 	datetime        	data di prossima revisione
+	workingDay	short		    	giorni necessari per la prossima revisione
+
+
+
+row390 ComandiClassiBigData_graph.txt
+
+class WT extends V			   classe delle attrezzature da lavoro
+
+	name		string		    (campo obbligatorio)
+	type		string
+	description	string
+	built_by	string			nome del costruttore ( P  o  ORG )
+	vers		string			versione
+	id		string		        (campo obbligatorio)
+	man_op		string			url del manuale d'uso
+	man_maint	string			url del manuale manutenzione
+	value		float			valore dell'attrezzo
+	zone		string			luogo dove si trova attualmente
+	builtDate	datetime
+	nextRev 	datetime        data di prossima revisione
+	workingDay	short		    giorni necessari per la revisione
+
+
+	
+row470 ComandiClassiBigData_graph.txt
+
+class Semifinished extends V    classe dei prodotti semilavorati
+
+    	name        	string          (campo obbligatorio)
+    	type        	string
+ 	description	string
+	built_by	string		nome del costruttore ( P  o  ORG )
+	vers		string		versione
+	id		string		(campo obbligatorio)
+	um          	string          unità di misura
+	quantity    	float
+	value		float		valore del bene
+	zone		string		luogo dove si trova attualmente
+    	dateProd    	datetime        data di produzione
+    	dateExpire  	datetime        data di scadenza
+
+
+
+row540 ComandiClassiBigData_graph.txt
+
+class HAct extends V abstract		classe delle attività umane socialmente utili
+
+	name 		string		(campo obbligatorio)
+	description 	string
+	url		string		sito dedicato all'attività
+	type		string
+
+	
+
+
+row560 ComandiClassiBigData_graph.txt		classi di attività per la produzione di beni materiali
+
+	class TangibleAssets extends HAct abstract		
+		
+		zone		string
+
+
+
+		class FoodProduction 			attività di produzione di cibo    row570
+			products 	embeddedlist	string
+
+
+		class HandyCraft 			attività artigianali individuali  row600
+			products 	embeddedlist	string
+
+		class RawMaterialExtraction		estrazione materieprime 	row620
+
+                          
+		class SteelIndustry			Industria siderurgica		row650
+
+
+
+		class MechanicIndustry			industria meccanica		row700
+		class ChemicalIndustry			industria chimica		row740
+		class PharmaceuticalIndustry		industria farmaceutica		row780
+		class TextileIndustry			produzione e lavorazione tessuti		row820
+		class PaperIndustry			produzione e lavorazione della carta		row860
+		class PlasticsIndustry			produzione e lavorazione materie plastiche	row900
+		class ElectronicIndustry		produzione componenti ed apparati elettronici	row940
+		class AutomotiveIndustry		produzione mezzi di trasporto su gomma		row980
+		class AviationIndustry			produzioni aeromobili				row1020
+		class AreospaceIndustry			produzione mezzi ed attrezzature areospaziali	row1060
+		class AssemblyIndustry			assemblaggio apparati ed attrezzature		row1100
+		class ShipBuilding			produzione mezzi di trasporto su acqua		row1140
+		class RailIndustry			produzione mezzi di trasporto su ferro		row1180
+		class CivilBuildind			costruzione edifici per uso civile abitativo    row1220
+		class IndustrialBuilding		costruzione edifici industriali ed infrastrutture  row1260
+
+
+
+
+row1300  ComandiClassiBigData_graph.txt	
+
+				classi di attività di servizi 
+	class ServiceActivities extedns HAct abstract	
+
+	
+		HealtCareService			 cura della salute: attività fisica e medicina 		row1320
+									 ( per persone animali e piante )
+			zone		string
+		
+		TransportService			 attività legate ai servizi di trasporto		row1360
+
+			zone		embeddedlist string    		zone interessate al trasporto
+			maxLoad		float				portata del mezzo (Kg)
+			medium		string				mezzo di trasporto
+			
+			
+
+		EcologicService				 cura e controllo dell'ambiente				row1400
+
+			zone		string
+
+		PublicSecurityService 		 servizi di pubblica sicurezza					row1440
+
+			zone		string
+
+		ResourceManagement			 servizi di gestione e monitoraggio delle risorse	row1480
+
+			zone		embeddedlist string
+
+		MaintenanceService			 servizi di manutenzione				row1520
+
+			zone		string
+
+		GoodsDistributionService	 distribuzione e servizio informazioni sui			row1560
+									 beni, servizi ed attrezzature disponibili
+			zone		string
+			
+		
+		HotelTourismRestaurants		 servizi per fuori zona						row1600
+		
+			zone		string		
+
+
+
+
+
+
+row1640  ComandiClassiBigData_graph.txt	
+									classi di attivitàdi servizi intellettuali
+	class IntellectualActivities extedns HAct	abstract
+	
+		zone		string				(campo obbligatorio)
+
+
+		EducationAndTraining	 			centri di formazione e verifiche		row1680
+		
+		ReserchArea					centri di ricerca				row1720
+		
+		DSSdesign					centri di progettazione per software, 		row1760
+									servizi ed apparati
+		
+		InternationalCooperation	centri di gestione della cooperazione 				row1800
+		
+		Justice						tribunali civili e penali			row1840
+		
+		AdministrativeService		centri di gestione ed implementazione 				row1880
+									delle regole ( funzioni attive sul database)
+
+		
+
+
+
+row1920  ComandiClassiBigData_graph.txt	
+		
+NR	classe astratta 			classi delle risorse naturali
+
+	name string
+	zone string
+	quantity float
+	
+	Energy 		exstends NR	classe energie disponibili					row1960
+		type	string 			rinnovabile / fossile / nucleare
+
+
+	RawMaterial	exstends NR		classe materie prime disponibili			row2000
+		cas 	string	identificativo della sostanza o elemento chimico
+		type 	string	riciclato / estratto
+
+	Space 		exstends NR		classe delo spazio disponibile				row2040
+			
+	Biocapacity	exstends NR		classe capacità dell'ambiente a generare risorse 	row2080
+
+
+
+row2120  ComandiClassiBigData_graph.txt	
+
+KN	classe astratta 			classe delle conoscenze
+
+	section		string
+	branch		string
+	topic		string
+	language	string
+	url 		embeddedlist string
+
+		ArtHistory		exstends KN      see file ArtHistory				row2140
+
+		Language		exstends KN							row2160
+
+		Science_engineering	exstends KN							row2180
+
+
+
+
+row2220  ComandiClassiBigData_graph.txt	
+
+Connections	classi di connessioni tra vertici
+
+		description	string		descrizione della relazione
+		start		datetime	data di inizio della relazione	
+		stop		datetime	data di terminte della relazione
+
+	P_ORG		relazioni tra persone ed organizzazioni
+
+
+	P_NR		relazioni tra persone ed risorse naturali
+
+
+	
+		
+	P_Wishlist_HAct	 	attività che vorresti svolgere 
+	P_Activity_HAct		attività che hai fatto e che svolgi attualmente 
+	P_Health_HAct		attività sportive effettuate, esami clinici ed informazioni riguardo allo stato di salute)
+	P_Justice_HAct		eventi che riguardano problemi con la giustizia, una sorta di casellario giudiziaro )
+
+	P_KN			classe delle conoscenze  teoriche di una persona
+
+		value		float
+
+
+	P_BuiltBy_PG			    	relazioni tra le persone e gli oggetti che hanno costruito ( produzioni artigianali )
+	P_Owner_PG		 	    	relazioni tra gli oggetti ed i loro proprietari
+	P_Maintener_PG				relazioni tra  gli oggettie e le persone che si non occupate della loro manutenzione
+
+
+	P_BuiltBy_WT		    		relazioni tra le persone e gli attrezzi di lavoro che hanno costruito o contribuito direttamente a costruire
+	P_Users_WT			        relazioni tra  gli attrezzi di lavoro ed i loro utilizzatori
+	P_Maintener_WT				relazioni tra gli attrezzi di lavoro e le persone che si sono occupate della loro manutenzione
+
+	P_Semifinished				relazioni tra le persone ed i prodotti semilavorati
+
+	ORG_NR					relazioni tra le organizzazioni e  le risorse naturali
+
+		value		float			quantità di risorsa
+		type		string			id della risorsa
+
+
+	ORG_BuiltBy_WT			    	relazioni tra le organizzazioni e gli attrezzi di lavoro che hanno costruito o contribuito direttamente a costruire
+	ORG_Users_WT			    	relazioni tra gli attrezzi di lavoro e le organizzazioni che li hanno utilizzati / utilizzano
+	ORG_Maintener_WT			relazioni tra gli attrezzi di lavoro e le organizzazioni che si sono occupate della loro manutenzione 
+
+
+
+	ORG_BuiltBy_PG				relazioni tra le organizzazioni ed i beni personali che hanno costruito o contribuito direttamente a costruire
+	ORG_Maintener_PG			relazioni tra i beni personali e le organizzazioni che si sono occupate della loro manutenzione
+
+
+	ORG_HAct				relazioni tra le organizzazioni e le attività umane 
+
+	ORG_Semifinished			relazioni tra le organizzazioni ed i prodotti semilavorati
+
+	NR_PG					relazioni tra risorse naturale e beni personali 
+		quantity		float
+		um			string	unità di misura
+
+	NR_WT					relazioni tra risorse naturali ed attrezzi di lavoro
+		quantity		float
+		um			string	unità di misura
+

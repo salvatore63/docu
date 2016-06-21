@@ -1,0 +1,2326 @@
+{[(~)]}
+
+cd /opt/orientdb/bin 
+sudo ./console.sh
+
+connect remote:127.0.0.1 root salva    
+connect remote:localhost/bigdata_graph root salva   
+
+
+
+
+connect remote:192.168.1.84 root salva
+connect remote:192.168.1.84/bigdata_graph root salva
+
+
+
+
+
+create class Subject extends V abstract
+
+create property Subject.name string
+alter property Subject.name mandatory true
+alter property Subject.name notnull true
+
+create property Subject.birthDate date
+alter property Subject.birthDate notnull true
+
+create property Subject.id string                
+alter property Subject.id notnull true
+
+create property Subject.eMail embeddedlist string
+alter property Subject.eMail notnull true
+
+create property Subject.zone embeddedlist string
+alter property Subject.zone notnull true
+
+create property Subject.vs float                
+alter property Subject.vs notnull true
+alter property Subject.vs min 1
+alter property Subject.vs max 1000
+
+create property Subject.kk float               
+alter property Subject.kk notnull true
+alter property Subject.kk min 1
+alter property Subject.kk max 1000
+
+create property Subject.ke float                
+alter property Subject.ke notnull true
+alter property Subject.ke min 1
+alter property Subject.ke max 1000
+
+create property Subject.vs_c float                
+alter property Subject.vs_c notnull true
+alter property Subject.vs_c min 1
+alter property Subject.vs_c max 1000
+
+create property Subject.kk_c float               
+alter property Subject.kk_c notnull true
+alter property Subject.kk_c min 1
+alter property Subject.kk_c max 1000
+
+create property Subject.ke_c float                
+alter property Subject.ke_c notnull true
+alter property Subject.ke_c min 1
+alter property Subject.ke_c max 1000
+            
+create property Subject.pwd string   
+alter property Subject.pwd notnull true
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class P extends Subject
+
+create property P.surname string
+alter property P.surname notnull true
+
+create property P.gender string
+alter property P.gender notnull true
+
+create property P.height string
+alter property P.height notnull true
+
+create property P.weight string
+alter property P.weight notnull true
+
+create property P.birthZone string
+alter property P.birthZone notnull true
+
+create property P.language embeddedlist string
+alter property P.language notnull true
+
+create property P.telNumber string
+alter property P.telNumber notnull true
+
+create vertex P set name='Aldo Salvatore', surname='Coraggio', gender='M', birthDate='1963-09-30', birthZone='E4152N1231E', language='IT', id='CRGLSL63P30I838P'  
+update P add eMail=['salvatore.coraggio@gmail.com','salvatore.coraggio@libero.it','salvatore.coraggio@autistici.org'] where name='Aldo Salvatore'
+create vertex P set name='Antonio',zone=['F415N123E','F418N129E'],surname='Minchella'
+update P add eMail=['ant.minchella@gmail.com'] where name='Antonio'
+
+update P remove eMail=['salvatore.coraggio@libero.it'] where name='Salvatore'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class ORG extends Subject
+create property ORG.description string
+alter property ORG.description notnull true
+
+create vertex ORG set name='siemens', birthDate='1990-09-30', birthZone='E4152N1231E', id='DE0007236101'  
+update ORG set birthDate='1847-01-01' where name='siemens'
+update ORG add eMail=['giannone@siemens.com','bernasconi@siemens.com'] where name='siemens'
+create vertex ORG set name='reno de medici',zone=['F415N123E','F418N129E'],id='IT0001178299'
+update ORG add eMail=['aldo.coraggio@rdmgroup.com'] where id='IT0001178299'
+update ORG set birthDate='1967-01-01' where name='reno de medici'
+create vertex ORG set name='VOLKSWAGEN', birthDate='1937-01-01', birthZone='E4152N1231E', id='DE0007664005'  
+
+select expand($c) let $a = (select from ORG ), $b = (select from P), $c = unionall($a,$b)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class Food extends V
+    create property Food.name       string
+    alter property Food.name mandatory true 
+    alter property Food.name notnull true
+    create property Food.type string
+    alter property Food.type notnull true
+    create property Food.IntendedUse string
+    alter property Food.IntendedUse notnull true
+    create property Food.zone string
+    alter property Food.zone notnull true
+    create property Food.quality string
+    alter property Food.quality notnull true
+    create property Food.quantity float
+    alter property Food.quantity notnull true
+    create property Food.dateProd datetime
+    alter property Food.dateProd notnull true
+    create property Food.dateExpire datetime
+    alter property Food.dateExpire notnull true
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class PG extends V
+
+create property PG.name string
+alter property PG.name mandatory true
+alter property PG.name notnull true
+
+create property PG.type string
+alter property PG.type notnull true
+
+create property PG.built_by string
+alter property PG.built_by notnull true
+
+create property PG.vers string
+alter property PG.vers notnull true
+
+create property PG.man_op string
+alter property PG.man_op notnull true
+
+create property PG.man_maint string
+alter property PG.man_maint notnull true
+
+create property PG.id string
+alter property PG.id mandatory true
+alter property PG.id notnull true
+
+create property PG.value float                
+alter property PG.value mandatory true
+alter property PG.value notnull true
+alter property PG.value min 1
+alter property PG.value max 1000
+
+create property PG.zone string
+alter property PG.zone notnull true
+
+create property PG.builtDate datetime
+alter property PG.builtDate notnull true
+
+create property PG.nextRev datetime
+alter property PG.nextRev notnull true
+
+create property PG.workingDay short
+alter property PG.workingDay notnull true
+
+
+create vertex PG set name='utilitaria', id='457K7', value=56, builtDate='1963-09-30', zone='E4152N1231E'
+update PG set built_by='VOLKSWAGEN' where id='457K7'
+update PG set nextRevision =sysdate() where id='457K7'
+create vertex PG set name='casa', id='CV4356', value=896, builtDate='1963-09-30', zone='E4152N1231E',nextRevision='2020-09-30'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class WT extends V
+
+create property WT.name string
+alter property WT.name mandatory true
+alter property WT.name notnull true
+
+create property WT.description string
+alter property WT.description notnull true
+
+create property WT.type string
+alter property WT.type notnull true
+
+create property WT.built_by string
+alter property WT.built_by notnull true
+
+create property WT.vers string
+alter property WT.vers notnull true
+
+create property WT.man_op string
+alter property WT.man_op notnull true
+
+create property WT.man_maint string
+alter property WT.man_maint notnull true
+
+create property WT.id string
+alter property WT.id mandatory true
+alter property WT.id notnull true
+
+create property WT.value float                
+alter property WT.value mandatory true
+alter property WT.value notnull true
+alter property WT.value min 1
+alter property WT.value max 1000
+
+create property WT.zone string
+alter property WT.zone notnull true
+
+create property WT.builtDate string
+alter property WT.builtDate notnull true
+
+create property WT.nextRev string
+alter property WT.nextRev notnull true
+
+create property WT.workingDay short
+alter property WT.workingDay notnull true
+
+create vertex WT set name='tornio', id='VG357', value=812, builtDate='1999-10-30', zone='E4652N3231E', workingDay=7
+update WT set built_by='JKK' where id='VG357'
+update WT set nextRevision =sysdate() where id='VG357'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class Semifinished extends V abstract
+
+create property Semifinished.name string
+alter property Semifinished.name mandatory true
+alter property Semifinished.name notnull true
+
+create property Semifinished.description string
+alter property Semifinished.description notnull true
+
+create property Semifinished.type string
+alter property Semifinished.type notnull true
+
+create property Semifinished.built_by string
+alter property Semifinished.built_by notnull true
+
+create property Semifinished.vers string
+alter property Semifinished.vers notnull true
+
+create property Semifinished.id string
+alter property Semifinished.id notnull true
+
+create property Semifinished.um string
+alter property Semifinished.um notnull true
+
+create property Semifinished.quantity float
+alter property Semifinished.quantity notnull true
+
+create property Semifinished.value float
+alter property Semifinished.value notnull true
+
+create property Semifinished.zone string
+alter property Semifinished.zone notnull true
+
+create property Semifinished.dateProd datetime
+alter property Semifinished.dateProd notnull true
+
+create property Semifinished.dateProd datetime
+alter property Semifinished.dateExpire notnull true
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class HAct extends V abstract
+
+create property HAct.name string
+alter property HAct.name mandatory true
+alter property HAct.name notnull true
+create property HAct.description string
+alter property HAct.description notnull true
+create property HAct.url string
+alter property HAct.url notnull true
+create property HAct.type string
+alter property HAct.type notnull true
+
+
+
+
+
+
+
+
+
+create class TangibleAssets extends HAct abstract
+create property TangibleAssets.zone string
+alter property TangibleAssets.zone mandatory true
+alter property TangibleAssets.zone notnull true
+
+
+
+
+
+
+create class FoodProduction extends TangibleAssets
+
+create property FoodProduction.products embeddedlist string
+alter property FoodProduction.products notnull true
+
+
+create vertex FoodProduction set name='mele', type='golden', zone='E4152N1231E'
+create vertex FoodProduction set name='pere', type='spada', zone='E4152N1231E'
+update FoodProduction set type='annurche' where (zone='E4152N1231E' and name='mele')
+create vertex FoodProduction set name='miele', type='spada', zone='E4152N1231E'
+create vertex FoodProduction set name='grano', type='spada', zone='E4152N1231E'
+create vertex FoodProduction set name='olio', type='oliva', zone='E4251N1431E'
+create vertex FoodProduction set name='olio', type='girasole', zone='E4152N1231E'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class HandyCraft extends TangibleAssets
+create property HandyCraft.products embeddedlist string
+alter property HandyCraft.products notnull true
+
+
+
+create vertex HandyCraft set name='calzolaio',  zone='F415N122E', 
+create vertex HandyCraft set name='elettrauto', zone='F415N122E'
+create vertex HandyCraft set name='parrucchiere', type='uomo', zone='F415N122E'
+create vertex HandyCraft set name='contadino', zone='F415N122E', products=['melanzane','fagiolini']
+
+
+
+
+
+
+
+
+
+
+create class RawMaterialExtraction extends TangibleAssets
+
+
+
+
+
+
+
+
+
+
+create vertex RawMaterialExtraction set name='alluminio',  zone='F415N122E'
+create vertex RawMaterialExtraction set name='ferro',  zone='F465N222E'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class SteelIndustry extends TangibleAssets
+
+
+
+
+
+
+
+
+
+
+
+
+create vertex SteelIndustry set name='alluminio',  zone='F415N122E'
+create vertex SteelIndustry set name='ferro',  zone='F465N222E'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class MechanicIndustry extends TangibleAssets
+
+
+create vertex MechanicIndustry set name='fonderia', type='ghisa', zone='F415N122E'
+create vertex MechanicIndustry set name='stampaggio lamiere', type='acciaio', zone='F475N192E'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class ChemicalIndustry extends TangibleAssets
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class PharmaceuticalIndustry extends TangibleAssets
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class TextileIndustry extends TangibleAssets
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class PaperIndustry extends TangibleAssets
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class PlasticsIndustry extends TangibleAssets
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class ElectronicIndustry extends TangibleAssets
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class AutomotiveIndustry extends TangibleAssets
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class AviationIndustry extends TangibleAssets
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class AreospaceIndustry extends TangibleAssets
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class AssemblyIndustry extends TangibleAssets
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class ShipBuilding extends TangibleAssets
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class RailIndustry extends TangibleAssets
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class CivilBuildind extends TangibleAssets
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class IndustrialBuilding extends TangibleAssets
+
+create vertex IndustrialBuilding set name='ponti e strade',zone='G44N10E'
+create vertex IndustrialBuilding set name='edifici industriali',type='A',zone='G44N10E'
+create vertex IndustrialBuilding set name='edifici industriali',type='B',zone='G44N10E'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class ServiceActivities extends HAct abstract
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class HealtCareService extends ServiceActivities 
+
+
+
+
+create property HealtCareService.zone string
+alter property HealtCareService.zone mandatory true
+alter property HealtCareService.zone notnull true
+
+create vertex HealtCareService set name='oculistica',type='A',zone='F415N123E'
+create vertex HealtCareService set name='palestra', description='fisioterapia', zone='F415N123E'
+create vertex HealtCareService set name='palestra', description='atletica', zone='F415N123E'
+create vertex HealtCareService set name='piscina', description='olimpica', zone='F415N123E'
+create vertex HealtCareService set name='palestra', description='bambini', zone='F415N123E'
+create vertex HealtCareService set name='termali', description='relax', zone='F415N123E'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class TransportService extends ServiceActivities
+
+create property TransportService.maxLoad float
+alter property TransportService.maxLoad mandatory true
+alter property TransportService.maxLoad notnull true
+create property TransportService.medium string
+alter property TransportService.medium mandatory true
+alter property TransportService.medium notnull true
+create property TransportService.zone embeddedlist string
+alter property TransportService.zone mandatory true
+alter property TransportService.zone notnull true
+
+create vertex TransportService set name='non-perishable goods', maxLoad=5000, medium='rubber', zone=['F415N123E','F415S123W']
+create vertex TransportService set name='person', maxLoad=800, medium='air', zone=['F415N123E']
+create vertex TransportService set name='person',type='rent', maxLoad=200, medium='water', zone=['F455N123E']
+create vertex TransportService set name='food goods', maxLoad=500, medium='air', zone=['F415N123E']
+create vertex TransportService set name='liquid', maxLoad=20000, medium='rail',zone=['F415N123E','F418N129E']
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class EcologicService extends ServiceActivities
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class PublicSecurityService extends ServiceActivities
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class ResouceManagement extends ServiceActivities
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class MaintenanceService extends ServiceActivities
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class GoodsDistributionService extends ServiceActivities
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class HotelTourismRestaurants extends ServiceActivities
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class IntellectualActivities extends HAct abstract
+
+create property IntellectualActivities.zone string
+alter property IntellectualActivities.zone mandatory true
+alter property IntellectualActivities.zone notnull true
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class EducationAndTraining extends IntellectualActivities
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class ReserchArea extends IntellectualActivities
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class DSSdesign extends IntellectualActivities
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class InternationalCooperation extends IntellectualActivities
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class Justice extends IntellectualActivities
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class AdministrativeService extends IntellectualActivities
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class NR extends V abstract
+
+create property NR.name string
+alter property NR.name mandatory true
+alter property NR.name notnull true
+
+create property NR.zone string
+alter property NR.zone notnull true
+
+create property NR.quantity float                
+alter property NR.quantity notnull true
+alter property NR.quantity min 1
+alter property NR.quantity max 1000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class Energy extends NR
+create property Energy.type string
+alter property Energy.type notnull true
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class RawMaterial extends NR
+
+create property RawMaterial.cas string
+alter property RawMaterial.cas notnull true
+create property RawMaterial.type string
+alter property RawMaterial.type notnull true
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class Space extends NR
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class Biocapacity extends NR
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class KN extends V abstract
+
+create property KN.section string
+alter property KN.section mandatory true
+alter property KN.section notnull true
+create property KN.branch string
+alter property KN.branch notnull true
+create property KN.topic string
+alter property KN.topic notnull true
+create property KN.language string
+alter property KN.language notnull true
+create property KN.url embeddedlist string
+alter property KN.url notnull true
+
+
+
+
+
+
+
+create class ArtHistory extends KN
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class Language extends KN
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class Science_engineering extends KN abstract
+
+create vertex Science_engineering set section='Physics', topic='physical motion', topic='One-dimensional motion', language='EN', url=['https://www.khanacademy.org/science/physics/ap-physics-1/one-dimensional-motion']
+create vertex Science_engineering set section='Physics', topic='physical motion', topic='Two-dimensional motion', language='EN', url=['https://www.khanacademy.org/science/physics/ap-physics-1/two-dimensional-motion']
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create class Connections extends E abstract
+
+create property Connections.description string
+alter property Connections.description mandatory true
+alter property Connections.description notnull true
+
+create property Connections.start datetime
+alter property Connections.start mandatory true
+alter property Connections.start notnull true
+
+create property Connections.stop datetime
+alter property Connections.stop notnull true
+
+
+create class P_ORG extends Connections
+create edge P_ORG from ( select from P where id='CRGLSL63P30I838P' ) to ( select from HAct where id='IT0001178299') set description='responsabile manutenzione', start=sysdate()
+update P_ORG set start='2001-06-08 08:00:00' where out.id='CRGLSL63P30I838P'
+
+
+create class P_Producer_NR extends Connections
+create property P_Producer_NR.quantity float
+alter property P_Producer_NR.quantity notnull true
+create property P_Producer_NR.quality string
+alter property P_Producer_NR.quality notnull true
+
+create class P_Consumer_NR extends Connections
+
+
+create class P_Wishlist_HAct extends Connections
+create edge P_Wishlist_HAct from ( select from P where id='CRGLSL63P30I838P' ) to (  select from HandyCraft where name='elettrauto' and zone='F415N122E' ) set description='impianti a  gas', start=sysdate()
+select expand ( out('P_Wishlist_HAct') ) from P where id='CRGLSL63P30I838P'
+select name from ( select expand( out('P_Wishlist_HAct') ) from P where	id='CRGLSL63P30I838P')
+
+
+create class P_Activity_HAct extends Connections
+
+create class P_Health_HAct extends Connections
+create property P_Health_HAct.url datetime
+alter property P_Health_HAct.url notnull true
+
+create class P_Justice_HAct extends Connections
+create property P_Justice_HAct.url datetime
+alter property P_Justice_HAct.url notnull true
+
+create class P_KN extends Connections
+create property P_KN.value float
+alter property P_KN.value mandatory true
+alter property P_KN.value notnull true
+create edge P_KN from ( select from P where id='CRGLSL63P30I838P' ) to ( select from Chemistry where name='Atoms, compounds, and ions' ) set description='codice corso', start='1986-06-08 08:00:00', stop='1986-10-30 08:00:00'
+
+
+
+
+create class P_BuiltBy_PG  extends Connections
+create class P_Owner_PG  extends Connections
+create class P_MaintenenanceList_PG extends Connections
+
+
+create class P_BuiltBy_WT  extends Connections
+create class P_Users_WT  extends Connections
+create class P_MaintenenanceList_WT extends Connections
+
+create class ORG_Consumer_NR extends Connections
+create property ORG_Consumer_NR.quantity float
+alter property ORG_Consumer_NR.quantity mandatory true
+alter property ORG_Consumer_NR.quantity notnull true
+create property ORG_Consumer_NR.type string
+alter property ORG_Consumer_NR.type mandatory true
+alter property ORG_Consumer_NR.type notnull true
+ 
+create class ORG_Producer_NR extends Connections
+create property ORG_Producer_NR.quantity float
+alter property ORG_Producer_NR.quantity mandatory true
+alter property ORG_Producer_NR.quantity notnull true
+create property ORG_Producer_NR.quality string
+alter property ORG_Producer_NR.quality mandatory true
+alter property ORG_Producer_NR.quality notnull true
+
+
+create class ORG_BuiltBy_WT  extends Connections
+create class ORG_Users_WT  extends Connections
+create class ORG_MaintenenanceList_WT extends Connections
+
+create class ORG_BuiltBy_PG  extends Connections
+create class ORG_MaintenenanceList_PG extends Connections
+
+create class ORG_HAct extends Connections
+
+create class ORG_Food extends Connections
+
+
+create class NR_PG extends Connections
+
+create class NR_WT extends Connections
+
+
+
+*******  leggenda  ***********
+
+vedi file DescrizioneClassiBigdata_graph
+
+
+
+
+
+
+2
