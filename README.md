@@ -5,4 +5,4 @@ The purpose of this project is to create a 'working example of the proposal desc
 
 as expressed in the following document
 
-https://drive.google.com/open?id=0B-XyY2j_RBYpMmhRNUItSFMycEE
+https://drive.google.com/file/d/1wbzOsrfcR-41rw6Rw1Hsj1OytrPdyeGC/view?usp=sharing
